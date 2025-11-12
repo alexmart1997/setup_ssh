@@ -1,0 +1,76 @@
+
+
+# Скрипт для установки, добавляем его в файл, сохраняем
+
+nano setup_ssh.sh
+
+#!/bin/bash
+
+echo "=== Установка и настройка SSH-сервера ==="
+
+echo "Обновление списка пакетов..."
+sudo apt-get update
+
+echo "Установка OpenSSH-сервера..."
+sudo apt-get install -y openssh-server
+
+echo "Запуск SSH-сервера..."
+sudo systemctl start ssh
+
+echo "Включение автозапуска SSH..."
+sudo systemctl enable ssh
+
+# Проверка статуса
+echo "Проверка статуса SSH-сервера..."
+sudo systemctl status ssh
+
+echo "Проверка работы SSH-сервера..."
+if systemctl is-active --quiet ssh; then
+    echo "SSH-сервер успешно установлен и запущен"
+else
+    echo "Ошибка: SSH-сервер не запущен"
+    exit 1
+fi
+
+echo "=== Информация для подключения ==="
+echo "IP-адреса машины:"
+ip addr show | grep inet | grep -v 127.0.0.1
+echo "Порт SSH: 22"
+
+#
+Скрипт проверки статуса, добавляем его в файл, сохраняем
+
+nano check_ssh_status.sh
+
+#!/bin/bash
+
+echo "=== Проверка статуса SSH-сервера ==="
+
+# Проверка статуса службы
+echo "1. Статус службы SSH:"
+sudo systemctl status ssh --no-pager -l
+
+echo -e "\n2. Проверка активности службы:"
+if systemctl is-active --quiet ssh; then
+    echo "✅ SSH-сервер работает (running)"
+else
+    echo "❌ SSH-сервер не работает"
+fi
+
+echo -e "\n3. Проверка порта 22:"
+sudo netstat -tlnp | grep :22
+
+echo -e "\n4. Проверка процесса SSH:"
+ps aux | grep sshd | grep -v grep
+
+# Делаю скрипты исполняемыми 
+
+chmod +x setup_ssh.sh check_ssh_status.sh
+
+#Запускаю установку 
+
+./setup_ssh.sh
+
+#Запускаю проверку
+
+./check_ssh_status.sh
