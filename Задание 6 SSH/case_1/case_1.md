@@ -43,11 +43,11 @@ echo "IP-адреса машины:"
 ip addr show | grep inet | grep -v 127.0.0.1
 echo "Порт SSH: 22"
 ```
-[Скриншот содержимого файла для установки](screen/file_creation.png)
+![Скриншот содержимого файла для установки](screen/file_creation.png)
 
 На слудующем сриншоте можно увидеть, как идет процесс установки
 
-[Скриншот процесса установки](screen/install.png)
+![Скриншот процесса установки](screen/install.png)
 
 ### 2. Создание скрипта проверки статуса
 
@@ -78,11 +78,11 @@ sudo netstat -tlnp | grep :22
 echo -e "\n4. Проверка процесса SSH:"
 ps aux | grep sshd | grep -v grep
 ```
-[Сриншт создания файла для проверки](screen/file_check.png)
+![Сриншт создания файла для проверки](screen/file_check.png)
 
 Ниже можно увидеть скриншот результатов проверки 
 
-[Скриншот результатов проверки](screen/check_res.png)
+![Скриншот результатов проверки](screen/check_res.png)
 
 ### 3. Назначение прав на выполнение
 
@@ -101,4 +101,5 @@ chmod +x setup_ssh.sh check_ssh_status.sh
 ```bash
 ./check_ssh_status.sh
 ```
+
 
